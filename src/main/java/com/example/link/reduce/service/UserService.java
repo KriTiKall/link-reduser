@@ -2,6 +2,8 @@ package com.example.link.reduce.service;
 
 import com.example.link.reduce.data.entity.UserEntity;
 import com.example.link.reduce.data.repository.UserRepository;
+import com.example.link.reduce.model.User;
+import com.example.link.reduce.model.interfaces.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -9,19 +11,19 @@ import java.util.Optional;
 
 @Service
 
-public class UserService implements IUserService{
+public class UserService implements IUserService {
 
     @Autowired
     private UserRepository repository;
 
-    @Autowired
+
     public UserService(UserRepository repository) {
         this.repository = repository;
     }
 
     @Override
-    public UserEntity saveUser(UserEntity userEntity) {
-        return repository.save(userEntity);
+    public User register(UserEntity userEntity) {
+        return map(repository.save(userEntity));
     }
 
     @Override
@@ -30,13 +32,21 @@ public class UserService implements IUserService{
     }
 
     @Override
-    public Optional<UserEntity> getUserByLogin(String name) {
-        return repository.findByLogin(name);
+    public User getUserByLogin(String login) {
+        return map(repository.findByLogin(login).get());
+    }
+
+    public User map(UserEntity entity) {
+        return new User(
+                entity.getLogin(),
+                entity.getName(),
+                entity.getEmail()
+        );
     }
 
     @Override
     public boolean existsByUserLogin(String login) {
-        return getUserByLogin(login).isPresent();
+        return repository.findByLogin(login).isPresent();
     }
 
     @Override

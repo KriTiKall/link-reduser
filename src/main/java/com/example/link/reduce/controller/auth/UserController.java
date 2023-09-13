@@ -1,9 +1,10 @@
-package com.example.link.reduce.controller;
+package com.example.link.reduce.controller.auth;
 
-import com.example.link.reduce.controller.dto.LoginProperties;
-import com.example.link.reduce.controller.dto.SignUpProperties;
+import com.example.link.reduce.controller.auth.dto.LoginRequest;
+import com.example.link.reduce.controller.auth.dto.SignUpProperties;
 import com.example.link.reduce.data.entity.UserEntity;
-import com.example.link.reduce.service.IUserService;
+import com.example.link.reduce.model.User;
+import com.example.link.reduce.model.interfaces.IUserService;
 import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,7 +17,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/")
@@ -38,7 +38,7 @@ public class UserController {
     }
 
     @PostMapping("/in/login")
-    public ResponseEntity<String> authenticateUser(@RequestBody LoginProperties loginDto) {
+    public ResponseEntity<String> authenticateUser(@RequestBody LoginRequest loginDto) {
         Authentication authentication = authenticationManager
                 .authenticate(new UsernamePasswordAuthenticationToken(loginDto.getLogin(), loginDto.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -46,13 +46,13 @@ public class UserController {
     }
 
     @PostMapping("/in/signup")
-    public ResponseEntity<?> registerUser(@RequestBody SignUpProperties signUpProperties){
+    public ResponseEntity<?> registerUser(@RequestBody SignUpProperties signUpProperties) {
         // checking for username exists in a database
-        if(userService.existsByUserLogin(signUpProperties.getLogin())){
+        if (userService.existsByUserLogin(signUpProperties.getLogin())) {
             return new ResponseEntity<>("Username is already exist!", HttpStatus.BAD_REQUEST);
         }
         // checking for email exists in a database
-        if(userService.existsByUserEmail(signUpProperties.getEmail())){
+        if (userService.existsByUserEmail(signUpProperties.getEmail())) {
             return new ResponseEntity<>("Email is already exist!", HttpStatus.BAD_REQUEST);
         }
         // creating user object
@@ -61,17 +61,17 @@ public class UserController {
         user.setName(signUpProperties.getName());
         user.setEmail(signUpProperties.getEmail());
         user.setPassword(passwordEncoder.encode(signUpProperties.getPassword()));
-        userService.saveUser(user);
+        userService.register(user);
         return new ResponseEntity<>("User is registered successfully!", HttpStatus.OK);
     }
 
-    @GetMapping("/api/{id}")
-    public Optional<UserEntity> getUser(@PathVariable("id") Long id) {
-        return userService.getUserById(id);
-    }
-
+    //    @GetMapping("/api/{id}")
+//    public Optional<UserEntity> getUser(@PathVariable("id") Long id) {
+//        return userService.getUserById(id);
+//    }
+    // remove the password from properties of the user.
     @GetMapping("/api/user")
-    public Optional<UserEntity> getUserInfo() {
+    public User getUserInfo() {
         return userService.getUserByLogin(SecurityContextHolder.getContext().getAuthentication().getName());
     }
 
@@ -83,4 +83,5 @@ public class UserController {
         }
         return new ResponseEntity<>("User logout  successfully!", HttpStatus.OK);
     }
+
 }

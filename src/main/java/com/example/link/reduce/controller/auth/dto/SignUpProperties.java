@@ -1,4 +1,4 @@
-package com.example.link.reduce.controller.dto;
+package com.example.link.reduce.controller.auth.dto;
 
 import lombok.Data;
 
