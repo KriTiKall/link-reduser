@@ -1,25 +1,18 @@
 package com.example.link.reduce.controller.stat;
 
-import com.example.link.reduce.controller.link.dto.LinkRequest;
-import com.example.link.reduce.model.LinkStat;
-import com.example.link.reduce.model.ShortLink;
-import com.example.link.reduce.model.interfaces.IShortLinkService;
+import com.example.link.reduce.model.dto.LinkStat;
 import com.example.link.reduce.model.interfaces.IStatService;
 import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.MediaType;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.springframework.web.servlet.view.RedirectView;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController
-@RequestMapping("/stat")
-public class ShortLinkController {
+@RequestMapping("/api/stat")
+public class StatController {
 
     @Autowired
     private IStatService service;
@@ -31,4 +24,14 @@ public class ShortLinkController {
         return service.getTopOfLink(login);
     }
 
+    @GetMapping(value = "/chart", produces = MediaType.IMAGE_JPEG_VALUE)
+    public @ResponseBody byte[] getChart(@RequestParam String type, @RequestParam String name) {
+        val login = SecurityContextHolder.getContext().getAuthentication().getName();
+        val result = service.getChart(login, name, type);
+
+        if (result == null)
+            return new byte[0];
+        else
+            return result;
+    }
 }

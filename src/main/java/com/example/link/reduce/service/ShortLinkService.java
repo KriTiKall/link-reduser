@@ -7,7 +7,7 @@ import com.example.link.reduce.data.repository.LinkRepository;
 import com.example.link.reduce.data.repository.ShortRepository;
 import com.example.link.reduce.data.repository.StatRepository;
 import com.example.link.reduce.data.repository.UserRepository;
-import com.example.link.reduce.model.ShortLink;
+import com.example.link.reduce.model.dto.ShortLink;
 import com.example.link.reduce.model.interfaces.IReduceLink;
 import com.example.link.reduce.model.interfaces.IShortLinkService;
 import lombok.val;
@@ -127,8 +127,7 @@ public class ShortLinkService implements IShortLinkService {
 
         statRepository.deleteByLinkEntity(link);
         linkRepository.deleteByUserIdAndName(user.get().getId(), name);
-        // todo solve this problem (short don't deleting)
-//        shortRepository.deleteById(link.getShortEntity().getId());
+        shortRepository.deleteById(link.getShortEntity().getId());
     }
 
     @Override
@@ -139,12 +138,17 @@ public class ShortLinkService implements IShortLinkService {
     }
 
     @Override
-    public void onclick(String shortName, String login) {
+    public void onclick(String linkName, String code) {
         val stat = new StatisticEntity();
 
         stat.setClickTime(LocalDateTime.now());
-        stat.setLinkEntity(findLinkByName(shortName, login));
+        stat.setLinkEntity(findLinkByNameAndCode(linkName, code));
 
         statRepository.save(stat);
+    }
+
+    private LinkEntity findLinkByNameAndCode(String linkName, String code) {
+        ShortEntity shortEntity = shortRepository.findByCode(code);
+        return linkRepository.findByNameAndShortEntity(linkName, shortEntity);
     }
 }

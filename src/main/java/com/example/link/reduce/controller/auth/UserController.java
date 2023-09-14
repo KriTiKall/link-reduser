@@ -3,7 +3,7 @@ package com.example.link.reduce.controller.auth;
 import com.example.link.reduce.controller.auth.dto.LoginRequest;
 import com.example.link.reduce.controller.auth.dto.SignUpProperties;
 import com.example.link.reduce.data.entity.UserEntity;
-import com.example.link.reduce.model.User;
+import com.example.link.reduce.model.dto.User;
 import com.example.link.reduce.model.interfaces.IUserService;
 import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,7 +1,7 @@
 package com.example.link.reduce.controller.link;
 
 import com.example.link.reduce.controller.link.dto.LinkRequest;
-import com.example.link.reduce.model.ShortLink;
+import com.example.link.reduce.model.dto.ShortLink;
 import com.example.link.reduce.model.interfaces.IShortLinkService;
 import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;

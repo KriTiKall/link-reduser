@@ -1,4 +1,4 @@
-package com.example.link.reduce.model;
+package com.example.link.reduce.model.dto;
 
 // Store statistics about link
 

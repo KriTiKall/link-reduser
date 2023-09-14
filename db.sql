@@ -1,3 +1,10 @@
+-- сначала создаём базу и пользователя.
+CREATE USER "admin_short" LOGIN SUPERUSER PASSWORD 'admin';
+
+CREATE DATABASE 'link-reducer-2' OWNER "admin_short" ENCODING 'UTF8' CONNECTION LIMIT 20;
+
+-- После создаём все таблицы
+
 create schema if not exists model;
 
 create table if not exists model.users

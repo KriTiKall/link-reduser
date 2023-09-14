@@ -1,6 +1,6 @@
 package com.example.link.reduce.model.interfaces;
 
-import com.example.link.reduce.model.ShortLink;
+import com.example.link.reduce.model.dto.ShortLink;
 
 import java.util.List;
 

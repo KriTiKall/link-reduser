@@ -1,7 +1,7 @@
 package com.example.link.reduce.model.interfaces;
 
 import com.example.link.reduce.data.entity.UserEntity;
-import com.example.link.reduce.model.User;
+import com.example.link.reduce.model.dto.User;
 
 import java.util.Optional;
 

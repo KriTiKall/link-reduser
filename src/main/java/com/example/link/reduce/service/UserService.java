@@ -2,7 +2,7 @@ package com.example.link.reduce.service;
 
 import com.example.link.reduce.data.entity.UserEntity;
 import com.example.link.reduce.data.repository.UserRepository;
-import com.example.link.reduce.model.User;
+import com.example.link.reduce.model.dto.User;
 import com.example.link.reduce.model.interfaces.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

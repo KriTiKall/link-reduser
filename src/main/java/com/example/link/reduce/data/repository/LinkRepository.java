@@ -1,6 +1,7 @@
 package com.example.link.reduce.data.repository;
 
 import com.example.link.reduce.data.entity.LinkEntity;
+import com.example.link.reduce.data.entity.ShortEntity;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -19,6 +20,9 @@ public interface LinkRepository extends CrudRepository<LinkEntity, Long> {
 
     @Query(value = "select l from LinkEntity l where l.userId = :id and l.name = :name")
     LinkEntity findByUserIdAndName(@Param("id") Long id, @Param("name") String name);
+
+    @Query(value = "select l from LinkEntity l where l.name = :name and l.shortEntity = :entity")
+    LinkEntity findByNameAndShortEntity(@Param("name") String name, @Param("entity")ShortEntity entity);
 
     @Modifying
     @Transactional

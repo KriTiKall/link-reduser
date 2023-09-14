@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Data
@@ -26,7 +27,4 @@ public class LinkEntity {
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     @JoinColumn(name = "short_id")
     private ShortEntity shortEntity;
-
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "linkEntity", cascade = CascadeType.REMOVE)
-    private List<StatisticEntity> statistics;
 }

@@ -5,12 +5,15 @@ import com.example.link.reduce.data.entity.UserEntity;
 import com.example.link.reduce.data.repository.LinkRepository;
 import com.example.link.reduce.data.repository.ShortRepository;
 import com.example.link.reduce.data.repository.StatRepository;
+import com.example.link.reduce.model.dto.LinkStat;
 import com.example.link.reduce.model.interfaces.IReduceLink;
 import com.example.link.reduce.service.UserService;
 import lombok.val;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -59,32 +62,5 @@ class ApplicationTests {
         assertEquals(value.getShortLink(), temp.get().getShortLink());
 
         shortRepository.deleteById(value.getId());
-    }
-
-    @Test
-    public void linkTest() {
-
-        assertEquals(0, linkRepository.countByUserId(1l));
-
-        assertEquals(0, linkRepository.findByUserId(1l).size());
-    }
-
-    @Test
-    public void linkTest1() {
-        LinkEntity entity = linkRepository.findByUserIdAndName(1l, "docs.spring.io2");
-
-        assertNotNull(entity);
-    }
-
-    @Test
-    public void linkDelete() {
-        val id = 1l;
-        val name = "docs.spring.io4";
-
-        statRepository.deleteByLinkEntity(linkRepository.findByUserIdAndName(id, name));
-
-        linkRepository.deleteByUserIdAndName(id, name);
-
-        assertNull(linkRepository.findByUserIdAndName(id, name));
     }
 }

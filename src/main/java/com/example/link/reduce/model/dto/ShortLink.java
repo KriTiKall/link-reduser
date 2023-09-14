@@ -1,4 +1,4 @@
-package com.example.link.reduce.model;
+package com.example.link.reduce.model.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
