@@ -5,6 +5,7 @@ import com.example.link.reduce.controller.auth.dto.SignUpProperties;
 import com.example.link.reduce.data.entity.UserEntity;
 import com.example.link.reduce.model.dto.User;
 import com.example.link.reduce.model.interfaces.IUserService;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,7 +17,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 
 @RestController
 @RequestMapping("/")
@@ -42,7 +42,10 @@ public class UserController {
         Authentication authentication = authenticationManager
                 .authenticate(new UsernamePasswordAuthenticationToken(loginDto.getLogin(), loginDto.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        return new ResponseEntity<>("User login successfully!...", HttpStatus.OK);
+        if (authentication.isAuthenticated())
+            return new ResponseEntity<>("User login successfully!...", HttpStatus.OK);
+        else
+            return new ResponseEntity<>("Login or password is wrong!...", HttpStatus.FORBIDDEN);
     }
 
     @PostMapping("/in/signup")
@@ -72,7 +75,8 @@ public class UserController {
     // remove the password from properties of the user.
     @GetMapping("/api/user")
     public User getUserInfo() {
-        return userService.getUserByLogin(SecurityContextHolder.getContext().getAuthentication().getName());
+        String login = SecurityContextHolder.getContext().getAuthentication().getName();
+        return userService.getUserByLogin(login);
     }
 
     @GetMapping("/api/logout")

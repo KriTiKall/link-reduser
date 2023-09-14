@@ -1,12 +1,11 @@
 package com.example.link.reduce.data.entity;
 
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
-import javax.transaction.Transactional;
-import java.util.List;
+
 
 @Data
 @AllArgsConstructor

@@ -15,16 +15,15 @@ import java.util.Set;
 @Service
 public class UserDetail implements UserDetailsService {
     @Autowired
-    UserRepository userRepo;
+    private UserRepository userRepo;
 
     @Override
     public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
-        val user = userRepo.findByLogin(login);
-        if (user.isEmpty()) {
-            throw new UsernameNotFoundException("User not exists by Username");
-        }
+        val user = userRepo.findByLogin(login)
+                .orElseThrow(() ->
+                        new UsernameNotFoundException("User not found by login: "+ login));
 
         Set<GrantedAuthority> authorities = Set.of(new SimpleGrantedAuthority("USER"));
-        return new org.springframework.security.core.userdetails.User(login, user.get().getPassword(), authorities);
+        return new org.springframework.security.core.userdetails.User(login, user.getPassword(), authorities);
     }
 }

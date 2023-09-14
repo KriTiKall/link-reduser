@@ -17,6 +17,20 @@ create table if not exists model.users
     unique (login)
 );
 
+create table if not exists model.user_roles
+(
+    id              serial primary key,
+    name            varchar(80)  not null
+    unique (name)
+);
+
+create table if not exists model.roles
+(
+    id              serial primary key,
+    name            varchar(80)  not null
+    unique (name)
+);
+
 create table if not exists model.shorts
 (
     id      serial primary key,
