@@ -14,7 +14,7 @@ create table if not exists model.users
     name            varchar(25)  not null,
     email            varchar(25)  not null,
     password_hash   varchar(80)  not null,
-    unique (name)
+    unique (login)
 );
 
 create table if not exists model.shorts

@@ -3,6 +3,7 @@ package com.example.link.reduce.controller.link;
 import com.example.link.reduce.controller.link.dto.LinkRequest;
 import com.example.link.reduce.model.dto.ShortLink;
 import com.example.link.reduce.model.interfaces.IShortLinkService;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController
@@ -99,13 +99,12 @@ public class ShortLinkController {
 
     @GetMapping("/{code}")
     public RedirectView redirectWithUsingRedirectView(@PathVariable("code") String code, RedirectAttributes attributes) {
-        val login = SecurityContextHolder.getContext().getAuthentication().getName();
         val list = service.getAllLink();
         String url = "/";
 
         for (ShortLink link : list)
             if (link.getCode().equals(code)) {
-                service.onclick(link.getName(), login);
+                service.onclick(link.getName(), link.getCode());
                 url = link.getLink();
                 break;
             }
